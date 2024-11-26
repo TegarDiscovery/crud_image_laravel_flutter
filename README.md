@@ -18,3 +18,23 @@ samples, guidance on mobile development, and a full API reference.
 ## Ignore Generate File
 
 https://stackoverflow.com/questions/77108275/flutter-generated-files-are-not-getting-ignored-in-gitignore
+
+## Info
+
+Saya menggunakan android studio ladybug. Jangan lupa setup ini. agar image_picker bisa dijalankan.
+
+- gradle-wrapper.properties
+
+```
+distributionUrl=https\://services.gradle.org/distributions/gradle-8.4-all.zip
+```
+
+- settings.gradle
+
+```
+plugins {
+    ...
+    id "com.android.application" version "8.3.2" apply false
+    ...
+}
+```
