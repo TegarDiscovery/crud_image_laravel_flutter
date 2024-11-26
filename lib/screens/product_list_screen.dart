@@ -140,8 +140,8 @@ class _ProductListScreenState extends State<ProductListScreen> {
                                     ),
                                   );
                                 } else if (value == 'delete') {
-                                  // _confirmDelete(
-                                  //     context, product.id); // Konfirmasi hapus
+                                  _showDeleteConfirmationDialog(
+                                      context, product.id);
                                 }
                               },
                               itemBuilder: (context) => [
@@ -192,5 +192,63 @@ class _ProductListScreenState extends State<ProductListScreen> {
         child: const Icon(Icons.add),
       ),
     );
+  }
+}
+
+Future<void> _showDeleteConfirmationDialog(
+    BuildContext context, int productId) async {
+  // Show dialog to confirm deletion
+  final bool confirmDelete = await showDialog<bool>(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Hapus Produk'),
+            content: const Text(
+                'Apakah kamu yakin, ini akan menghapus data secara permanen?'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () =>
+                    Navigator.of(context).pop(false), // User cancels
+                child: const Text('Cancel'),
+              ),
+              TextButton(
+                onPressed: () =>
+                    Navigator.of(context).pop(true), // User confirms
+                child: const Text('Delete'),
+              ),
+            ],
+          );
+        },
+      ) ??
+      false; // Default to false if the dialog is dismissed without a selection
+
+  // If user confirms, proceed to delete
+  if (confirmDelete) {
+    try {
+      // Call the deleteProduct method from ApiService
+      await ApiService.deleteProduct(productId);
+
+      // Show success message
+      // ignore: use_build_context_synchronously
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Product deleted successfully!')),
+      );
+
+      Future.delayed(const Duration(seconds: 2), () {
+        Navigator.push(
+          // ignore: use_build_context_synchronously
+          context,
+          MaterialPageRoute(
+            builder: (context) => const ProductListScreen(),
+          ), // Ganti dengan layar tujuan
+        );
+      });
+    } catch (e) {
+      // Show error message in case of failure
+      // ignore: use_build_context_synchronously
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to delete product: $e')),
+      );
+    }
   }
 }

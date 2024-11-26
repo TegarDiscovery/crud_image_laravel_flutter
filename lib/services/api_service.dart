@@ -111,7 +111,7 @@ class ApiService {
     final Dio dio = Dio();
     try {
       final response = await dio.delete(
-        '${ApiConstants.productsUrl}/$productId',
+        '${ApiConstants.productsUrl}/$productId/delete',
       );
 
       if (response.statusCode != 200) {
