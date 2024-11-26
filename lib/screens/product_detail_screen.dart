@@ -66,10 +66,13 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             ClipRRect(
                               borderRadius: BorderRadius.circular(12),
                               child: Image.network(
-                                '${ApiConstants.imgUrl}/${productDetail!['image']}',
-                                width: double
-                                    .infinity, // Mengisi lebar penuh layar
-                                height: 250,
+                                // Check if the image exists, otherwise use a placeholder or default image.
+                                productDetail!['image'] != null &&
+                                        productDetail!['image'] != ''
+                                    ? '${ApiConstants.imgUrl}/${productDetail!['image']}'
+                                    : 'https://via.placeholder.com/150', // URL of a placeholder image
+                                width: double.infinity,
+                                height: 200,
                                 fit: BoxFit.cover,
                               ),
                             ),

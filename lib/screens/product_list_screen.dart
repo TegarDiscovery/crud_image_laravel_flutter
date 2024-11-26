@@ -5,6 +5,7 @@ import '../models/product.dart';
 import '../constants/api_constants.dart';
 import '../screens/product_form_screen.dart';
 import '../screens/product_detail_screen.dart';
+import 'product_update_screen.dart';
 
 class ProductListScreen extends StatefulWidget {
   const ProductListScreen({super.key});
@@ -75,6 +76,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Daftar Produk'),
+        centerTitle: true,
       ),
       body: isLoading
           ? const Center(
@@ -111,8 +113,48 @@ class _ProductListScreenState extends State<ProductListScreen> {
                                   )
                                 : const Icon(Icons.image_not_supported),
                             title: Text(product.title),
-                            subtitle: Text(product.description),
-                            trailing: Text('Rp ${product.price}'),
+                            subtitle: Text(
+                              '${product.description}\nPrice: Rp ${product.price}', // Format deskripsi dengan harga
+                              style: const TextStyle(
+                                fontSize: 14, // Sesuaikan ukuran font
+                                color: Colors.grey, // Warna teks untuk detail
+                              ),
+                              maxLines:
+                                  2, // Batasi hingga 2 baris agar tidak terlalu panjang
+                              overflow: TextOverflow
+                                  .ellipsis, // Tambahkan "..." jika teks terlalu panjang
+                            ),
+                            trailing: PopupMenuButton<String>(
+                              onSelected: (value) {
+                                if (value == 'edit') {
+                                  // Navigasi ke layar edit
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => UpdateProductScreen(
+                                        productId: product
+                                            .id, // Pass the productId directly
+                                        product:
+                                            product, // Pass the product object directly
+                                      ),
+                                    ),
+                                  );
+                                } else if (value == 'delete') {
+                                  // _confirmDelete(
+                                  //     context, product.id); // Konfirmasi hapus
+                                }
+                              },
+                              itemBuilder: (context) => [
+                                const PopupMenuItem(
+                                  value: 'edit',
+                                  child: Text('Edit'),
+                                ),
+                                const PopupMenuItem(
+                                  value: 'delete',
+                                  child: Text('Hapus'),
+                                ),
+                              ],
+                            ),
                             onTap: () {
                               Navigator.push(
                                 context,
