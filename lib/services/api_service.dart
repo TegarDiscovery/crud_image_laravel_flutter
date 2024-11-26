@@ -49,4 +49,19 @@ class ApiService {
       throw Exception('Failed to create product');
     }
   }
+
+  static Future<Map<String, dynamic>> fetchProductDetail(int productId) async {
+    final Dio dio = Dio();
+    try {
+      final response =
+          await dio.get('${ApiConstants.productsUrl}/$productId/detail');
+      if (response.statusCode == 200) {
+        return response.data['data'];
+      } else {
+        throw Exception('Failed to load product detail');
+      }
+    } catch (e) {
+      throw Exception('Error: $e');
+    }
+  }
 }

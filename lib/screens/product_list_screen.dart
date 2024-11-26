@@ -4,6 +4,7 @@ import '../services/api_service.dart';
 import '../models/product.dart';
 import '../constants/api_constants.dart';
 import '../screens/product_form_screen.dart';
+import '../screens/product_detail_screen.dart';
 
 class ProductListScreen extends StatefulWidget {
   const ProductListScreen({super.key});
@@ -113,7 +114,13 @@ class _ProductListScreenState extends State<ProductListScreen> {
                             subtitle: Text(product.description),
                             trailing: Text('Rp ${product.price}'),
                             onTap: () {
-                              // Tambahkan navigasi ke detail produk di sini jika diperlukan
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ProductDetailScreen(
+                                      productId: product.id),
+                                ),
+                              );
                             },
                           );
                         } else {
