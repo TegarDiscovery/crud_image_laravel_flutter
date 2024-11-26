@@ -38,3 +38,7 @@ plugins {
     ...
 }
 ```
+
+## Dokumentasi
+
+![Dokumentasi](dokumentasi/dokumentasi.png)
