@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import '../services/api_service.dart';
 import '../models/product.dart';
 import '../constants/api_constants.dart';
+import '../screens/product_form_screen.dart';
 
 class ProductListScreen extends StatefulWidget {
   const ProductListScreen({super.key});
@@ -130,6 +131,17 @@ class _ProductListScreenState extends State<ProductListScreen> {
                     ),
                   ),
                 ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // Navigasi ke ProductFormScreen
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const ProductFormScreen()),
+          );
+        },
+        tooltip: 'Add Product',
+        child: const Icon(Icons.add),
+      ),
     );
   }
 }

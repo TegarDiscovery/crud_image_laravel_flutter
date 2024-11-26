@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:image_picker/image_picker.dart';
 import '../models/product.dart';
 import '../constants/api_constants.dart';
 
@@ -21,6 +22,31 @@ class ApiService {
       };
     } else {
       throw Exception('Failed to load products');
+    }
+  }
+
+  static Future<Map<String, dynamic>> createProduct(
+    XFile image,
+    String title,
+    String description,
+    double price,
+    int stock,
+  ) async {
+    final Dio dio = Dio();
+    final formData = FormData.fromMap({
+      'image': await MultipartFile.fromFile(image.path),
+      'title': title,
+      'description': description,
+      'price': price,
+      'stock': stock,
+    });
+
+    final response =
+        await dio.post('${ApiConstants.productsUrl}/', data: formData);
+    if (response.statusCode == 201) {
+      return response.data;
+    } else {
+      throw Exception('Failed to create product');
     }
   }
 }
